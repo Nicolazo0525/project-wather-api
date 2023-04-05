@@ -16,39 +16,30 @@ export default function useCities(){
     const humidity = ref([])
 
     const getCity = async (latitude, longitude) =>{
-        let response = await watherAxios.get(`/weather?lat=${latitude}&lon=${longitude}&APPID=${apiKey}`, {
-            headers: {
-                'Content-Type': 'application/json'
-            },
-        })
+        let response = await watherAxios.get(`/weather?lat=${latitude}&lon=${longitude}&APPID=${apiKey}`)
         name.value = response.data.name
         city.value = response.data.coord
         humidity.value = response.data.main
-        /* console.log(city.value) */
     }
     
     const getCities = async () =>{
         let response = await watherAxios.get('/weather?q=miami&APPID='+apiKey)
         cities.value = response.data
-        console.log(cities.value)
     }
     const storeCities = async (formData) =>{
-        console.log(formData)
         let csrfCookie = await localAxios.get('/sanctum/csrf-cookie');
-        let response = await localAxios.post('/api/cities/', formData, csrfCookie,{
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-        })
+        let response = await localAxios.post('/api/cities/', formData, csrfCookie)
     }
     const getCitiesHistory = async (page) =>{
         let response = await localAxios.get('/api/cities?page='+page)
         citiesHistory.value = response.data
         metaCity.value = response.data.meta
-        console.log(citiesHistory.value)
     }
 
+    const deleteCity = async(id) =>{
+        let response = await localAxios.delete('/api/cities/' + id)
+    }
+    
     return{
         city,
         name,
@@ -59,6 +50,7 @@ export default function useCities(){
         getCity,
         storeCities,
         getCities,
-        getCitiesHistory
+        getCitiesHistory,
+        deleteCity
     }
 }

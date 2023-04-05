@@ -4,15 +4,6 @@ import useCities from '../../composables/cities';
 import "leaflet/dist/leaflet.css";
 import { LMap, LTileLayer } from "@vue-leaflet/vue-leaflet";
 
-const zoom = 10
-const showMap = ref(false);
-const showModal = ref(false);
-const selectedCity = ref('')
-const {cities, getCities} = useCities()
-
-onMounted(() => {
-  getCities()
-})
 </script>
 
 <template>

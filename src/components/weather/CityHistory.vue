@@ -6,13 +6,9 @@ import VPagination from "@hennge/vue3-pagination";
 import "@hennge/vue3-pagination/dist/vue3-pagination.css";
 import localAxios from '../../localAxios';
 
-const {citiesHistory, metaCity, getCitiesHistory} = useCities()
+const {citiesHistory, metaCity, getCitiesHistory, deleteCity} = useCities()
 
 const page = ref(1);
-
-const deleteCity = async(id) =>{
-    let response = await localAxios.delete('/api/cities/' + id)
-}
 
 onMounted(()=>{
     getCitiesHistory(page.value)
